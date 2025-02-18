@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,29 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        body: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SafeArea(
+            child: Stack(
+              children: [
+                _fondoLogin(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
   }
+}
+
+_fondoLogin() {
+  return ClipRect(
+    child: Image.asset(
+      fit: BoxFit.cover,
+      'assets/img/fondo2.png',
+    ),
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:prueba_double_v/config/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,13 +13,13 @@ void main() async {
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  get appRouter => null;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    throw MaterialApp.router(
+    return MaterialApp.router(
       title: 'Prueba Double v',
-      routerConfig: appRouter,
+      theme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
+      routerConfig: appRoute,
       debugShowCheckedModeBanner: false,
     );
   }
