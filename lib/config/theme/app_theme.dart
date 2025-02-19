@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   ThemeData getTheme() {
-    const seddColor = Colors.purple;
+    const seedColor = Colors.purple;
 
-    return ThemeData(
-      useMaterial3: true,
-      colorSchemeSeed: seddColor,
+    return ThemeData.dark().copyWith(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: seedColor,
+        brightness: Brightness.dark,
+      ),
       listTileTheme: const ListTileThemeData(
-        iconColor: seddColor,
+        iconColor: seedColor,
       ),
     );
   }

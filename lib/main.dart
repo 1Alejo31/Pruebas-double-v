@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:prueba_double_v/config/app_router.dart';
+import 'package:prueba_double_v/config/router/app_router.dart';
+import 'package:prueba_double_v/config/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +22,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      title: 'Prueba Double v',
-      theme: ThemeData.dark(
-        useMaterial3: true,
-      ),
+      theme: AppTheme().getTheme(),
       themeMode: ThemeMode.dark,
       routerConfig: appRoute,
       debugShowCheckedModeBanner: false,
