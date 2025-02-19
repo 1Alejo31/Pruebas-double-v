@@ -13,7 +13,7 @@ class CustomTextFormFild extends StatelessWidget {
     required this.labelTextString,
     required this.hintTextString,
     required this.icono,
-    required this.errorMessage,
+    this.errorMessage,
     this.onChanged,
     this.validator,
   });
@@ -24,7 +24,7 @@ class CustomTextFormFild extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelTextString,
         hintText: hintTextString,
-        errorText: errorMessage,
+        errorText: errorMessage != null ? errorMessage : null,
         border: const OutlineInputBorder(),
         prefixIcon: icono,
         enabledBorder: const OutlineInputBorder(

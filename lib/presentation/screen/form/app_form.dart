@@ -20,6 +20,18 @@ class _AppFormState extends State<AppForm> {
               child: Stack(
                 children: [
                   const CustomFont(src: 'assets/img/fondo4.png'),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: CustomButtom(
+                      textoBoton: "",
+                      colorBoton: Color.fromARGB(0, 255, 255, 255),
+                      colorTexto: Colors.white,
+                      icono: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
                   _formulario(),
                 ],
               ),
@@ -79,72 +91,120 @@ Widget _formulario() {
   );
 }
 
-class RegisterForm extends StatelessWidget {
+class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
 
   @override
+  _RegisterFormState createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  String userName = '';
+  String userLastName = '';
+  String userDate = '';
+  String userDirection = '';
+
+  @override
   Widget build(BuildContext context) {
-    return const Form(
+    return Form(
+      key: _formkey,
       child: Column(
         children: [
           CustomTextFormFild(
             labelTextString: "Nombre",
             hintTextString: "Ingresa el nombre",
-            icono: Icon(
+            icono: const Icon(
               Icons.person,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            errorMessage: "Hay un error",
+            onChanged: (value) => userName = value,
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Campo requerido';
+              if (value.trim().isEmpty) return 'Campo requerido';
+              if (value.length < 3) return 'Más de 4 letras';
+              if (value.length > 15) return 'Menos de 15 letras';
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                return 'Solo se permiten letras sin espacios';
+              }
+
+              return null;
+            },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           CustomTextFormFild(
             labelTextString: "Apellido",
             hintTextString: "Ingresa el apellido",
-            icono: Icon(
+            icono: const Icon(
               Icons.supervised_user_circle_outlined,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            errorMessage: "Hay un error",
+            onChanged: (value) => userLastName = value,
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Campo requerido';
+              if (value.trim().isEmpty) return 'Campo requerido';
+              if (value.length < 3) return 'Más de 5 letras';
+              if (value.length > 15) return 'Menos de 15 letras';
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                return 'Solo se permiten letras sin espacios';
+              }
+
+              return null;
+            },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           CustomTextFormFild(
             labelTextString: "Fecha de nacimiento",
             hintTextString: "",
-            icono: Icon(
+            icono: const Icon(
               Icons.date_range_rounded,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            errorMessage: "Hay un error",
+            onChanged: (value) => userDate = value,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           CustomTextFormFild(
             labelTextString: "Dirección",
             hintTextString: "Infrese la dirección",
-            icono: Icon(
+            icono: const Icon(
               Icons.location_on_outlined,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            errorMessage: "Hay un error",
+            onChanged: (value) => userDirection = value,
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Campo requerido';
+              if (value.trim().isEmpty) return 'Campo requerido';
+              if (value.length < 3) return 'Más de 5 letras';
+              if (value.length > 15) return 'Menos de 15 letras';
+
+              return null;
+            },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomButtom(
+              const CustomButtom(
                 textoBoton: "",
                 colorBoton: Color.fromARGB(255, 76, 174, 255),
                 colorTexto: Colors.white,
                 icono: Icon(Icons.add_location_alt_outlined),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               CustomButtom(
                 textoBoton: "Guardar",
-                colorBoton: Color.fromARGB(255, 94, 64, 113),
+                colorBoton: const Color.fromARGB(255, 94, 64, 113),
                 colorTexto: Colors.white,
-                icono: Icon(Icons.save),
-              )
+                icono: const Icon(Icons.save),
+                onPressed: () {
+                  final isValid = _formkey.currentState!.validate();
+                  if (!isValid) return;
+                  print('$userName, $userLastName, $userDate, $userDirection');
+                },
+              ),
             ],
           ),
         ],

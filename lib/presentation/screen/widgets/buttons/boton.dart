@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomButtom extends StatelessWidget {
+class CustomButtom extends StatefulWidget {
   final String textoBoton;
   final Color colorBoton;
   final Color colorTexto;
@@ -17,12 +17,17 @@ class CustomButtom extends StatelessWidget {
   });
 
   @override
+  State<CustomButtom> createState() => _CustomButtomState();
+}
+
+class _CustomButtomState extends State<CustomButtom> {
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: widget.onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(colorBoton),
-        foregroundColor: MaterialStateProperty.all<Color>(colorTexto),
+        backgroundColor: MaterialStateProperty.all<Color>(widget.colorBoton),
+        foregroundColor: MaterialStateProperty.all<Color>(widget.colorTexto),
         padding: MaterialStateProperty.all<EdgeInsets>(
             const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -35,11 +40,11 @@ class CustomButtom extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icono.icon, color: colorTexto),
-          if (textoBoton != '') const SizedBox(width: 8),
+          Icon(widget.icono.icon, color: widget.colorTexto),
+          if (widget.textoBoton != '') const SizedBox(width: 8),
           Text(
-            textoBoton,
-            style: TextStyle(color: colorTexto, fontSize: 20),
+            widget.textoBoton,
+            style: TextStyle(color: widget.colorTexto, fontSize: 20),
           )
         ],
       ),
