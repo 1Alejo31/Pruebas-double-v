@@ -22,7 +22,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SafeArea(
             child: Stack(
               children: [
-                fondoLogin(),
+                const CustomFontLogin(),
                 Column(
                   children: [
                     CustomImage(
