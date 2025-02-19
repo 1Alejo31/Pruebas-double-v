@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prueba_double_v/presentation/screen/widgets/fondo.dart';
-import 'package:prueba_double_v/presentation/screen/widgets/boton.dart';
-import 'package:prueba_double_v/presentation/screen/widgets/imagenCentral.dart';
+import 'package:prueba_double_v/presentation/screen/widgets/widgets.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

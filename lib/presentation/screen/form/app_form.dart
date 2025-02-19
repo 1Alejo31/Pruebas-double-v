@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_double_v/presentation/screen/widgets/boton.dart';
-import 'package:prueba_double_v/presentation/screen/widgets/fondo.dart';
+import 'package:prueba_double_v/presentation/screen/widgets/widgets.dart';
 
 class AppForm extends StatefulWidget {
   const AppForm({super.key});
@@ -20,10 +19,8 @@ class _AppFormState extends State<AppForm> {
             SafeArea(
               child: Stack(
                 children: [
-                  CustomFont(
-                    src: 'assets/img/fondo4.png',
-                  ),
-                  _formulario(context),
+                  const CustomFont(src: 'assets/img/fondo4.png'),
+                  _formulario(),
                 ],
               ),
             ),
@@ -34,12 +31,12 @@ class _AppFormState extends State<AppForm> {
   }
 }
 
-Widget _formulario(BuildContext context) {
+Widget _formulario() {
   return Container(
     margin: const EdgeInsets.only(top: 200, left: 20, right: 20),
     child: Card(
       elevation: 9.0,
-      color: Color.fromARGB(19, 125, 108, 164),
+      color: Color.fromARGB(19, 146, 125, 193),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
         child: Column(
@@ -72,30 +69,9 @@ Widget _formulario(BuildContext context) {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            _textFieldNombre(),
-            const SizedBox(
-              height: 10,
-            ),
-            _textFieldApellido(),
-            const SizedBox(
-              height: 10,
-            ),
-            _textFieldFechaNacimiento(),
-            const SizedBox(
-              height: 10,
-            ),
-            _textFieldFechaDireccion(),
-            const SizedBox(height: 20),
-            CustomButtom(
-              textoBoton: 'Guardar',
-              colorBoton: const Color.fromARGB(255, 94, 64, 113),
-              colorTexto: Colors.white,
-              icono: const Icon(Icons.save),
-              onPressed: () {},
-            ),
+            const SizedBox(height: 40),
+            RegisterForm(),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -105,12 +81,11 @@ Widget _formulario(BuildContext context) {
 
 Widget _textFieldNombre() {
   return TextFormField(
-    decoration: InputDecoration(
+    decoration: const InputDecoration(
       labelText: 'Nombre',
       hintText: 'Julian',
-      border: const OutlineInputBorder(),
-      prefixIcon:
-          Icon(Icons.person, color: const Color.fromARGB(255, 125, 82, 243)),
+      border: OutlineInputBorder(),
+      prefixIcon: Icon(Icons.person, color: Color.fromARGB(255, 125, 82, 243)),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
       ),
@@ -118,47 +93,29 @@ Widget _textFieldNombre() {
   );
 }
 
-Widget _textFieldApellido() {
-  return TextFormField(
-    decoration: InputDecoration(
-      labelText: 'Apellido',
-      hintText: 'Gonzalez',
-      border: const OutlineInputBorder(),
-      prefixIcon:
-          Icon(Icons.person, color: const Color.fromARGB(255, 125, 82, 243)),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
-      ),
-    ),
-  );
-}
+class RegisterForm extends StatelessWidget {
+  const RegisterForm({super.key});
 
-Widget _textFieldFechaNacimiento() {
-  return TextFormField(
-    decoration: InputDecoration(
-      labelText: 'Fecha de nacimiento',
-      hintText: '23/01/23',
-      border: const OutlineInputBorder(),
-      prefixIcon: Icon(Icons.date_range,
-          color: const Color.fromARGB(255, 125, 82, 243)),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Column(
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: 'Nombre',
+              hintText: 'Julian',
+              border: OutlineInputBorder(),
+              prefixIcon:
+                  Icon(Icons.person, color: Color.fromARGB(255, 125, 82, 243)),
+              enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
+              ),
+            ),
+          ),
+        ],
       ),
-    ),
-  );
-}
-
-Widget _textFieldFechaDireccion() {
-  return TextFormField(
-    decoration: InputDecoration(
-      labelText: 'Dirección',
-      hintText: 'Calle 42 b sur #3d este 61',
-      border: const OutlineInputBorder(),
-      prefixIcon: Icon(Icons.date_range,
-          color: const Color.fromARGB(255, 125, 82, 243)),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
-      ),
-    ),
-  );
+    );
+  }
 }
