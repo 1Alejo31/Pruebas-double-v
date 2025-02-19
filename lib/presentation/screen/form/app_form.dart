@@ -33,7 +33,7 @@ class _AppFormState extends State<AppForm> {
 
 Widget _formulario() {
   return Container(
-    margin: const EdgeInsets.only(top: 200, left: 20, right: 20),
+    margin: const EdgeInsets.only(top: 130, left: 20, right: 20),
     child: Card(
       elevation: 9.0,
       color: Color.fromARGB(19, 146, 125, 193),
@@ -79,40 +79,73 @@ Widget _formulario() {
   );
 }
 
-Widget _textFieldNombre() {
-  return TextFormField(
-    decoration: const InputDecoration(
-      labelText: 'Nombre',
-      hintText: 'Julian',
-      border: OutlineInputBorder(),
-      prefixIcon: Icon(Icons.person, color: Color.fromARGB(255, 125, 82, 243)),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
-      ),
-    ),
-  );
-}
-
 class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return const Form(
       child: Column(
         children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Nombre',
-              hintText: 'Julian',
-              border: OutlineInputBorder(),
-              prefixIcon:
-                  Icon(Icons.person, color: Color.fromARGB(255, 125, 82, 243)),
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: Color.fromARGB(255, 200, 182, 248)),
-              ),
+          CustomTextFormFild(
+            labelTextString: "Nombre",
+            hintTextString: "Ingresa el nombre",
+            icono: Icon(
+              Icons.person,
+              color: Color.fromARGB(255, 85, 168, 236),
             ),
+            errorMessage: "Hay un error",
+          ),
+          SizedBox(height: 10),
+          CustomTextFormFild(
+            labelTextString: "Apellido",
+            hintTextString: "Ingresa el apellido",
+            icono: Icon(
+              Icons.supervised_user_circle_outlined,
+              color: Color.fromARGB(255, 85, 168, 236),
+            ),
+            errorMessage: "Hay un error",
+          ),
+          SizedBox(height: 10),
+          CustomTextFormFild(
+            labelTextString: "Fecha de nacimiento",
+            hintTextString: "",
+            icono: Icon(
+              Icons.date_range_rounded,
+              color: Color.fromARGB(255, 85, 168, 236),
+            ),
+            errorMessage: "Hay un error",
+          ),
+          SizedBox(height: 10),
+          CustomTextFormFild(
+            labelTextString: "Dirección",
+            hintTextString: "Infrese la dirección",
+            icono: Icon(
+              Icons.location_on_outlined,
+              color: Color.fromARGB(255, 85, 168, 236),
+            ),
+            errorMessage: "Hay un error",
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButtom(
+                textoBoton: "",
+                colorBoton: Color.fromARGB(255, 76, 174, 255),
+                colorTexto: Colors.white,
+                icono: Icon(Icons.add_location_alt_outlined),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              CustomButtom(
+                textoBoton: "Guardar",
+                colorBoton: Color.fromARGB(255, 94, 64, 113),
+                colorTexto: Colors.white,
+                icono: Icon(Icons.save),
+              )
+            ],
           ),
         ],
       ),

@@ -7,7 +7,8 @@ class CustomButtom extends StatelessWidget {
   final Icon icono;
   final VoidCallback? onPressed;
 
-  CustomButtom({
+  const CustomButtom({
+    super.key,
     required this.textoBoton,
     required this.colorBoton,
     required this.colorTexto,
@@ -17,28 +18,30 @@ class CustomButtom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: colorBoton,
-        borderRadius: BorderRadius.circular(10),
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(colorBoton),
+        foregroundColor: MaterialStateProperty.all<Color>(colorTexto),
+        padding: MaterialStateProperty.all<EdgeInsets>(
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        elevation: MaterialStateProperty.all<double>(5),
       ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        onPressed: onPressed,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icono.icon, color: colorTexto),
-            const SizedBox(width: 8),
-            Text(
-              '$textoBoton',
-              style: TextStyle(color: colorTexto, fontSize: 20),
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icono.icon, color: colorTexto),
+          if (textoBoton != '') const SizedBox(width: 8),
+          Text(
+            textoBoton,
+            style: TextStyle(color: colorTexto, fontSize: 20),
+          )
+        ],
       ),
     );
   }
