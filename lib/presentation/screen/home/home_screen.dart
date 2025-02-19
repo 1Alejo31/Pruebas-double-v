@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/fondo.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/boton.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/imagenCentral.dart';
@@ -22,14 +23,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SafeArea(
             child: Stack(
               children: [
-                const CustomFontLogin(),
+                const CustomFont(
+                  src: 'assets/img/fondo2.png',
+                ),
                 Column(
                   children: [
-                    CustomImage(
+                    const CustomImage(
                       src: 'assets/img/centralPro.png',
                       topData: 200,
                     ),
-                    CustomImage(
+                    const CustomImage(
                       src: 'assets/img/textoHome.png',
                       topData: 20,
                     ),
@@ -39,7 +42,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       colorBoton: const Color.fromARGB(255, 94, 64, 113),
                       colorTexto: Colors.white,
                       icono: const Icon(Icons.add),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push('/AppForm');
+                      },
                     ),
                     const SizedBox(height: 10),
                   ],

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CustomFontLogin extends StatelessWidget {
-  const CustomFontLogin({super.key});
+class CustomFont extends StatelessWidget {
+  final String src;
+  const CustomFont({super.key, required this.src});
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Image.asset(
+        src,
         fit: BoxFit.cover,
-        'assets/img/fondo2.png',
       ),
     );
   }

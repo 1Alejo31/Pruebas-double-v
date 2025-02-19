@@ -4,7 +4,8 @@ class CustomImage extends StatelessWidget {
   final String src;
   final int topData;
 
-  CustomImage({
+  const CustomImage({
+    super.key,
     required this.src,
     required this.topData,
   });

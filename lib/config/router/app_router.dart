@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:prueba_double_v/presentation/screen/home/home_screen.dart';
+import 'package:prueba_double_v/presentation/screen/screens.dart';
 
 final appRoute = GoRouter(
   initialLocation: '/',
@@ -8,6 +8,11 @@ final appRoute = GoRouter(
       path: '/',
       name: 'home',
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/AppForm',
+      name: 'AppForm',
+      builder: (context, state) => const AppForm(),
     ),
   ],
 );
