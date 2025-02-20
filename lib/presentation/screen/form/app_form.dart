@@ -10,35 +10,32 @@ class AppForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => RegisterBloc(),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SafeArea(
-                child: Stack(
-                  children: [
-                    const CustomFont(src: 'assets/img/fondo4.png'),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: CustomButtom(
-                        textoBoton: "",
-                        colorBoton: const Color.fromARGB(0, 255, 255, 255),
-                        colorTexto: Colors.white,
-                        icono: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SafeArea(
+              child: Stack(
+                children: [
+                  const CustomFont(src: 'assets/img/fondo4.png'),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: CustomButtom(
+                      textoBoton: "",
+                      colorBoton: const Color.fromARGB(0, 255, 255, 255),
+                      colorTexto: Colors.white,
+                      icono: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    _formulario(),
-                  ],
-                ),
+                  ),
+                  _formulario(),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
