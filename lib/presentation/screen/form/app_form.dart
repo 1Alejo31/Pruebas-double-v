@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prueba_double_v/presentation/blocs/register/register_bloc.dart';
@@ -31,7 +32,7 @@ class AppForm extends StatelessWidget {
                         },
                       ),
                     ),
-                    _formulario()
+                    _formulario(),
                   ],
                 ),
               ),
@@ -85,6 +86,8 @@ class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController fechaNacController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  final ConfettiController _controllerTopCenter =
+      ConfettiController(duration: const Duration(seconds: 1));
 
   List<TextEditingController> direccionControllers = [];
 
@@ -92,6 +95,17 @@ class _RegisterFormState extends State<RegisterForm> {
   void initState() {
     super.initState();
     _agregarDireccion();
+    _controllerTopCenter.addListener(() {
+      if (_controllerTopCenter.state == ConfettiControllerState.stopped) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controllerTopCenter.dispose();
+    super.dispose();
   }
 
   void _agregarDireccion() {
@@ -250,10 +264,20 @@ class _RegisterFormState extends State<RegisterForm> {
                   final isValid = _formkey.currentState!.validate();
                   if (!isValid) return;
                   registerBloc.add(FormSubmitted());
+                  _controllerTopCenter.play();
                 },
               ),
             ],
-          )
+          ),
+          ConfettiWidget(
+            confettiController: _controllerTopCenter,
+            blastDirection: -3.14 / 2,
+            maxBlastForce: 5,
+            minBlastForce: 2,
+            emissionFrequency: 0.05,
+            numberOfParticles: 20,
+            gravity: 0.1,
+          ),
         ],
       ),
     );
