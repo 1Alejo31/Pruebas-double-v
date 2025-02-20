@@ -32,11 +32,11 @@ class UserDateChanged extends RegisterEvent {
 }
 
 class UserDirectionChanged extends RegisterEvent {
-  final String userDirection;
-  const UserDirectionChanged(this.userDirection);
+  final List<String> userDirections;
+  const UserDirectionChanged(this.userDirections);
 
   @override
-  List<Object> get props => [userDirection];
+  List<Object> get props => [userDirections];
 }
 
 class FormSubmitted extends RegisterEvent {}

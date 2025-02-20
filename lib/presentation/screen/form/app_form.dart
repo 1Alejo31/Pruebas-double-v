@@ -84,7 +84,36 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController fechaNacController = TextEditingController();
-  DateTime selectedDate = DateTime.now(); // Se mueve fuera del build
+  DateTime selectedDate = DateTime.now();
+
+  List<TextEditingController> direccionControllers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _agregarDireccion();
+  }
+
+  void _agregarDireccion() {
+    setState(() {
+      final controller = TextEditingController();
+      direccionControllers.add(controller);
+      _actualizarDireccionesEnBloc();
+    });
+  }
+
+  void _eliminarDireccion(int index) {
+    setState(() {
+      direccionControllers.removeAt(index);
+      _actualizarDireccionesEnBloc();
+    });
+  }
+
+  void _actualizarDireccionesEnBloc() {
+    final registerBloc = context.read<RegisterBloc>();
+    List<String> direcciones = direccionControllers.map((c) => c.text).toList();
+    registerBloc.add(UserDirectionChanged(direcciones));
+  }
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -127,8 +156,9 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) return 'Campo requerido';
               if (value.length < 3) return 'Más de 4 letras';
               if (value.length > 15) return 'Menos de 15 letras';
-              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value))
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
                 return 'Solo se permiten letras sin espacios';
+              }
               return null;
             },
           ),
@@ -147,8 +177,9 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) return 'Campo requerido';
               if (value.length < 3) return 'Más de 5 letras';
               if (value.length > 15) return 'Menos de 15 letras';
-              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value))
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
                 return 'Solo se permiten letras sin espacios';
+              }
               return null;
             },
           ),
@@ -163,32 +194,51 @@ class _RegisterFormState extends State<RegisterForm> {
             selectDate: selectDate,
           ),
           const SizedBox(height: 10),
-          CustomTextFormFild(
-            labelTextString: "Dirección",
-            hintTextString: "Ingrese la dirección",
-            icono: const Icon(Icons.location_on_outlined,
-                color: Color.fromARGB(255, 85, 168, 236)),
-            onChanged: (value) {
-              registerBloc.add(UserDirectionChanged(value));
-              _formkey.currentState?.validate();
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) return 'Campo requerido';
-              if (value.trim().isEmpty) return 'Campo requerido';
-              if (value.length < 3) return 'Más de 5 letras';
-              if (value.length > 15) return 'Menos de 15 letras';
-              return null;
-            },
+          Column(
+            children: List.generate(direccionControllers.length, (index) {
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomDirectionFormFild(
+                          labelTextString: "Dirección ${index + 1}",
+                          hintTextString: "Ingrese la dirección",
+                          icono: const Icon(Icons.location_on_outlined,
+                              color: Color.fromARGB(255, 85, 168, 236)),
+                          controller: direccionControllers[index],
+                          onChanged: (value) => _actualizarDireccionesEnBloc(),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo requerido';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      if (direccionControllers.length > 1)
+                        IconButton(
+                          icon: const Icon(Icons.delete_forever_outlined,
+                              color: Colors.red),
+                          onPressed: () => _eliminarDireccion(index),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 10), // Add space between inputs
+                ],
+              );
+            }),
           ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomButtom(
+              CustomButtom(
                 textoBoton: "",
-                colorBoton: Color.fromARGB(255, 76, 174, 255),
+                colorBoton: const Color.fromARGB(255, 76, 174, 255),
                 colorTexto: Colors.white,
-                icono: Icon(Icons.add_location_alt_outlined),
+                icono: const Icon(Icons.add_location_alt_outlined),
+                onPressed: _agregarDireccion,
               ),
               const SizedBox(width: 10),
               CustomButtom(
@@ -203,7 +253,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
             ],
-          ),
+          )
         ],
       ),
     );

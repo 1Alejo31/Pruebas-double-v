@@ -28,7 +28,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterFormState> {
 
   void userDirectionChange(
       UserDirectionChanged event, Emitter<RegisterFormState> emit) {
-    emit(state.copyWith(userDirection: event.userDirection));
+    emit(state.copyWith(userDirections: event.userDirections));
   }
 
   void onSubmit(FormSubmitted event, Emitter<RegisterFormState> emit) {

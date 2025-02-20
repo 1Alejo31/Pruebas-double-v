@@ -1,48 +1,41 @@
 part of 'register_bloc.dart';
 
-enum FormStatus { invalid, valid, validating, posting }
+enum FormStatus { initial, posting, success, failure }
 
 class RegisterFormState extends Equatable {
-  final FormStatus formStatus;
   final String userName;
   final String userLastName;
   final String userDate;
-  final String userDirection;
+  final List<String> userDirections;
+  final FormStatus formStatus;
 
   const RegisterFormState({
-    this.formStatus = FormStatus.invalid,
     this.userName = '',
     this.userLastName = '',
     this.userDate = '',
-    this.userDirection = '',
+    this.userDirections = const [],
+    this.formStatus = FormStatus.initial,
   });
 
-  //Crear el copiwith para crear nuevo estado
   RegisterFormState copyWith({
-    FormStatus? formStatus,
     String? userName,
     String? userLastName,
     String? userDate,
-    String? userDirection,
+    List<String>? userDirections,
+    FormStatus? formStatus,
   }) {
     return RegisterFormState(
-      formStatus: formStatus ?? this.formStatus,
       userName: userName ?? this.userName,
       userLastName: userLastName ?? this.userLastName,
       userDate: userDate ?? this.userDate,
-      userDirection: userDirection ?? this.userDirection,
+      userDirections: userDirections ?? this.userDirections,
+      formStatus: formStatus ?? this.formStatus,
     );
   }
 
-  //validamos si el estado es igual para no redibujar
   @override
-  List<Object> get props => [
-        formStatus,
-        userName,
-        userLastName,
-        userDate,
-        userDirection,
-      ];
+  List<Object> get props =>
+      [userName, userLastName, userDate, userDirections, formStatus];
 }
 
-final class RegisterInitial extends RegisterFormState {}
+class RegisterInitial extends RegisterFormState {}
