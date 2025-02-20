@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prueba_double_v/presentation/blocs/register/register_bloc.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/widgets.dart';
 
 class AppForm extends StatefulWidget {
@@ -24,15 +26,18 @@ class _AppFormState extends State<AppForm> {
                     padding: const EdgeInsets.all(15),
                     child: CustomButtom(
                       textoBoton: "",
-                      colorBoton: Color.fromARGB(0, 255, 255, 255),
+                      colorBoton: const Color.fromARGB(0, 255, 255, 255),
                       colorTexto: Colors.white,
-                      icono: Icon(Icons.arrow_back),
+                      icono: const Icon(Icons.arrow_back),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                   ),
-                  _formulario(),
+                  BlocProvider(
+                    create: (_) => RegisterBloc(),
+                    child: _formulario(),
+                  )
                 ],
               ),
             ),
@@ -101,13 +106,10 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
-  String userName = '';
-  String userLastName = '';
-  String userDate = '';
-  String userDirection = '';
-
   @override
   Widget build(BuildContext context) {
+    final registerBloc = context.watch<RegisterBloc>();
+
     return Form(
       key: _formkey,
       child: Column(
@@ -119,7 +121,10 @@ class _RegisterFormState extends State<RegisterForm> {
               Icons.person,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            onChanged: (value) => userName = value,
+            onChanged: (value) {
+              registerBloc.add(UserNameChanged(value));
+              _formkey.currentState?.validate();
+            },
             validator: (value) {
               if (value == null || value.isEmpty) return 'Campo requerido';
               if (value.trim().isEmpty) return 'Campo requerido';
@@ -140,7 +145,10 @@ class _RegisterFormState extends State<RegisterForm> {
               Icons.supervised_user_circle_outlined,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            onChanged: (value) => userLastName = value,
+            onChanged: (value) {
+              registerBloc.add(UserLastNameChanged(value));
+              _formkey.currentState?.validate();
+            },
             validator: (value) {
               if (value == null || value.isEmpty) return 'Campo requerido';
               if (value.trim().isEmpty) return 'Campo requerido';
@@ -161,7 +169,10 @@ class _RegisterFormState extends State<RegisterForm> {
               Icons.date_range_rounded,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            onChanged: (value) => userDate = value,
+            onChanged: (value) {
+              registerBloc.add(UserDateChanged(value));
+              _formkey.currentState?.validate();
+            },
           ),
           const SizedBox(height: 10),
           CustomTextFormFild(
@@ -171,7 +182,10 @@ class _RegisterFormState extends State<RegisterForm> {
               Icons.location_on_outlined,
               color: Color.fromARGB(255, 85, 168, 236),
             ),
-            onChanged: (value) => userDirection = value,
+            onChanged: (value) {
+              registerBloc.add(UserDirectionChanged(value));
+              _formkey.currentState?.validate();
+            },
             validator: (value) {
               if (value == null || value.isEmpty) return 'Campo requerido';
               if (value.trim().isEmpty) return 'Campo requerido';
@@ -202,7 +216,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 onPressed: () {
                   final isValid = _formkey.currentState!.validate();
                   if (!isValid) return;
-                  print('$userName, $userLastName, $userDate, $userDirection');
+
+                  registerBloc.add(FormSubmitted());
                 },
               ),
             ],
