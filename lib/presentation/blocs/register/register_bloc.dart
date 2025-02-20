@@ -32,7 +32,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterFormState> {
   }
 
   void onSubmit(FormSubmitted event, Emitter<RegisterFormState> emit) {
-    emit(state.copyWith(formStatus: FormStatus.posting));
+    emit(state.copyWith(formStatus: FormStatus.posting, statusData: true));
     print('Submit: $state');
   }
 }

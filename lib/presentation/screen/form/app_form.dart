@@ -261,8 +261,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 onPressed: () {
                   final isValid = _formkey.currentState!.validate();
                   if (!isValid) return;
-                  registerBloc.add(FormSubmitted());
                   _controllerTopCenter.play();
+                  registerBloc.add(FormSubmitted());
                 },
               ),
             ],
@@ -278,7 +278,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox(height: 10),
           Visibility(
-            visible: true,
+            visible: registerBloc.state.statusData,
             child: CustomButtom(
               textoBoton: 'Ver Registro',
               colorBoton: const Color.fromARGB(255, 94, 64, 113),

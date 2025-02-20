@@ -8,6 +8,7 @@ class RegisterFormState extends Equatable {
   final String userDate;
   final List<String> userDirections;
   final FormStatus formStatus;
+  final bool statusData;
 
   const RegisterFormState({
     this.userName = '',
@@ -15,6 +16,7 @@ class RegisterFormState extends Equatable {
     this.userDate = '',
     this.userDirections = const [],
     this.formStatus = FormStatus.initial,
+    this.statusData = false,
   });
 
   RegisterFormState copyWith({
@@ -23,6 +25,7 @@ class RegisterFormState extends Equatable {
     String? userDate,
     List<String>? userDirections,
     FormStatus? formStatus,
+    bool? statusData,
   }) {
     return RegisterFormState(
       userName: userName ?? this.userName,
@@ -30,12 +33,19 @@ class RegisterFormState extends Equatable {
       userDate: userDate ?? this.userDate,
       userDirections: userDirections ?? this.userDirections,
       formStatus: formStatus ?? this.formStatus,
+      statusData: statusData ?? this.statusData,
     );
   }
 
   @override
-  List<Object> get props =>
-      [userName, userLastName, userDate, userDirections, formStatus];
+  List<Object> get props => [
+        userName,
+        userLastName,
+        userDate,
+        userDirections,
+        formStatus,
+        statusData
+      ];
 }
 
 class RegisterInitial extends RegisterFormState {}
