@@ -14,5 +14,10 @@ final appRoute = GoRouter(
       name: 'AppForm',
       builder: (context, state) => const AppForm(),
     ),
+    GoRoute(
+      path: '/ShowData',
+      name: 'ShowData',
+      builder: (context, state) => const ShowData(),
+    ),
   ],
 );

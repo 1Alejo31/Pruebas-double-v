@@ -1,6 +1,5 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prueba_double_v/presentation/blocs/register/register_bloc.dart';
@@ -240,7 +239,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                     ],
                   ),
-                  const SizedBox(height: 10), // Add space between inputs
+                  const SizedBox(height: 10),
                 ],
               );
             }),
@@ -289,7 +288,7 @@ class _RegisterFormState extends State<RegisterForm> {
               colorTexto: Colors.white,
               icono: const Icon(Icons.navigate_next),
               onPressed: () {
-                context.push('/AppForm');
+                context.push('/ShowData');
               },
             ),
           ),

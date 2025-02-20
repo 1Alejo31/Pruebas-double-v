@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/widgets.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class ShowData extends ConsumerStatefulWidget {
+  const ShowData({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<ShowData> createState() => _ShowDataState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _ShowDataState extends ConsumerState<ShowData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,23 +27,89 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     const CustomImage(
                       src: 'assets/img/centralPro.png',
-                      topData: 200,
-                    ),
-                    const CustomImage(
-                      src: 'assets/img/textoHome.png',
-                      topData: 20,
+                      topData: 120,
                     ),
                     const SizedBox(height: 30),
-                    CustomButtom(
-                      textoBoton: 'Registrarse',
-                      colorBoton: const Color.fromARGB(255, 94, 64, 113),
-                      colorTexto: Colors.white,
-                      icono: const Icon(Icons.add),
-                      onPressed: () {
-                        context.push('/AppForm');
-                      },
+                    Container(
+                      margin:
+                          const EdgeInsets.only(top: 0, left: 20, right: 20),
+                      child: Card(
+                        elevation: 9.0,
+                        color: Color.fromARGB(19, 146, 125, 193),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Text(
+                                  'Información del usuario',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 40),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Nombre: ",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Apellido: ",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Fecha Nacimiento : ",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Dirección: ",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              CustomButtom(
+                                textoBoton: "",
+                                colorBoton: Color.fromARGB(0, 255, 255, 255),
+                                colorTexto: Colors.white,
+                                icono: Icon(Icons.arrow_back),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 10),
                   ],
                 )
               ],
