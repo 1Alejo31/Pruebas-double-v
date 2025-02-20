@@ -1,6 +1,8 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:prueba_double_v/presentation/blocs/register/register_bloc.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/widgets.dart';
 
@@ -278,6 +280,20 @@ class _RegisterFormState extends State<RegisterForm> {
             numberOfParticles: 20,
             gravity: 0.1,
           ),
+          const SizedBox(height: 10),
+          Visibility(
+            visible: true,
+            child: CustomButtom(
+              textoBoton: 'Ver Registro',
+              colorBoton: const Color.fromARGB(255, 94, 64, 113),
+              colorTexto: Colors.white,
+              icono: const Icon(Icons.navigate_next),
+              onPressed: () {
+                context.push('/AppForm');
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
