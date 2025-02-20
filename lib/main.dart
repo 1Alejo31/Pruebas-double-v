@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:prueba_double_v/config/router/app_router.dart';
 import 'package:prueba_double_v/config/theme/app_theme.dart';
+import 'package:prueba_double_v/presentation/blocs/register/register_bloc.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(const ProviderScope(
-    child: MyApp(),
+  runApp(ProviderScope(
+    child: BlocProvider(
+      create: (context) => RegisterBloc(),
+      child: const MyApp(),
+    ),
   ));
 }
 
