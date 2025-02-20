@@ -3,45 +3,40 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prueba_double_v/presentation/blocs/register/register_bloc.dart';
 import 'package:prueba_double_v/presentation/screen/widgets/widgets.dart';
 
-class AppForm extends StatefulWidget {
+class AppForm extends StatelessWidget {
   const AppForm({super.key});
 
   @override
-  State<AppForm> createState() => _AppFormState();
-}
-
-class _AppFormState extends State<AppForm> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SafeArea(
-              child: Stack(
-                children: [
-                  const CustomFont(src: 'assets/img/fondo4.png'),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: CustomButtom(
-                      textoBoton: "",
-                      colorBoton: const Color.fromARGB(0, 255, 255, 255),
-                      colorTexto: Colors.white,
-                      icono: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+    return BlocProvider(
+      create: (_) => RegisterBloc(),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SafeArea(
+                child: Stack(
+                  children: [
+                    const CustomFont(src: 'assets/img/fondo4.png'),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: CustomButtom(
+                        textoBoton: "",
+                        colorBoton: const Color.fromARGB(0, 255, 255, 255),
+                        colorTexto: Colors.white,
+                        icono: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                  ),
-                  BlocProvider(
-                    create: (_) => RegisterBloc(),
-                    child: _formulario(),
-                  )
-                ],
+                    _formulario()
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -51,44 +46,27 @@ class _AppFormState extends State<AppForm> {
 Widget _formulario() {
   return Container(
     margin: const EdgeInsets.only(top: 130, left: 20, right: 20),
-    child: Card(
+    child: const Card(
       elevation: 9.0,
       color: Color.fromARGB(19, 146, 125, 193),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+        padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
         child: Column(
           children: [
             Align(
               alignment: Alignment.topCenter,
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    return const LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 220, 220, 220),
-                        Color.fromARGB(255, 157, 126, 231),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ).createShader(bounds);
-                  },
-                  child: const Center(
-                    child: Text(
-                      'Registro de información',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+              child: Text(
+                'Registro de información',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
             RegisterForm(),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
           ],
         ),
       ),
@@ -105,6 +83,27 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController fechaNacController = TextEditingController();
+  DateTime selectedDate = DateTime.now(); // Se mueve fuera del build
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        fechaNacController.text = "${picked.toLocal()}".split(' ')[0];
+      });
+
+      context
+          .read<RegisterBloc>()
+          .add(UserDateChanged(fechaNacController.text));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,10 +116,8 @@ class _RegisterFormState extends State<RegisterForm> {
           CustomTextFormFild(
             labelTextString: "Nombre",
             hintTextString: "Ingresa el nombre",
-            icono: const Icon(
-              Icons.person,
-              color: Color.fromARGB(255, 85, 168, 236),
-            ),
+            icono: const Icon(Icons.person,
+                color: Color.fromARGB(255, 85, 168, 236)),
             onChanged: (value) {
               registerBloc.add(UserNameChanged(value));
               _formkey.currentState?.validate();
@@ -130,10 +127,8 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) return 'Campo requerido';
               if (value.length < 3) return 'Más de 4 letras';
               if (value.length > 15) return 'Menos de 15 letras';
-              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value))
                 return 'Solo se permiten letras sin espacios';
-              }
-
               return null;
             },
           ),
@@ -141,10 +136,8 @@ class _RegisterFormState extends State<RegisterForm> {
           CustomTextFormFild(
             labelTextString: "Apellido",
             hintTextString: "Ingresa el apellido",
-            icono: const Icon(
-              Icons.supervised_user_circle_outlined,
-              color: Color.fromARGB(255, 85, 168, 236),
-            ),
+            icono: const Icon(Icons.supervised_user_circle_outlined,
+                color: Color.fromARGB(255, 85, 168, 236)),
             onChanged: (value) {
               registerBloc.add(UserLastNameChanged(value));
               _formkey.currentState?.validate();
@@ -154,34 +147,27 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) return 'Campo requerido';
               if (value.length < 3) return 'Más de 5 letras';
               if (value.length > 15) return 'Menos de 15 letras';
-              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value))
                 return 'Solo se permiten letras sin espacios';
-              }
-
               return null;
             },
           ),
           const SizedBox(height: 10),
           CustomTextFormFild(
             labelTextString: "Fecha de nacimiento",
-            hintTextString: "",
-            icono: const Icon(
-              Icons.date_range_rounded,
-              color: Color.fromARGB(255, 85, 168, 236),
-            ),
-            onChanged: (value) {
-              registerBloc.add(UserDateChanged(value));
-              _formkey.currentState?.validate();
-            },
+            hintTextString: "Selecciona tu fecha",
+            icono: const Icon(Icons.date_range_rounded,
+                color: Color.fromARGB(255, 85, 168, 236)),
+            readOnlyStatus: true,
+            fechaNacController: fechaNacController,
+            selectDate: selectDate,
           ),
           const SizedBox(height: 10),
           CustomTextFormFild(
             labelTextString: "Dirección",
-            hintTextString: "Infrese la dirección",
-            icono: const Icon(
-              Icons.location_on_outlined,
-              color: Color.fromARGB(255, 85, 168, 236),
-            ),
+            hintTextString: "Ingrese la dirección",
+            icono: const Icon(Icons.location_on_outlined,
+                color: Color.fromARGB(255, 85, 168, 236)),
             onChanged: (value) {
               registerBloc.add(UserDirectionChanged(value));
               _formkey.currentState?.validate();
@@ -191,7 +177,6 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) return 'Campo requerido';
               if (value.length < 3) return 'Más de 5 letras';
               if (value.length > 15) return 'Menos de 15 letras';
-
               return null;
             },
           ),
@@ -205,9 +190,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 colorTexto: Colors.white,
                 icono: Icon(Icons.add_location_alt_outlined),
               ),
-              const SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               CustomButtom(
                 textoBoton: "Guardar",
                 colorBoton: const Color.fromARGB(255, 94, 64, 113),
@@ -216,7 +199,6 @@ class _RegisterFormState extends State<RegisterForm> {
                 onPressed: () {
                   final isValid = _formkey.currentState!.validate();
                   if (!isValid) return;
-
                   registerBloc.add(FormSubmitted());
                 },
               ),
